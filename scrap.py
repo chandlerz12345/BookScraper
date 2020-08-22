@@ -110,14 +110,24 @@ class Bookscrap:
 
 
 
-
+class AWSConnect:
+        def __init__(self):
+            self.app = Bookscrap()
+            self.app.scrap_books()
+            self.app.save
+            self.s3 = boto3.client('s3')
+        def save2s3(self):
+            self.s3.upload_file('app.json', 'lmtd-team-delta','AWSave.json')
+        
+d1 = AWSConnect()
+d1.save2s3()            
 
 # books = scrap_books()
 # print(len(all_books))
 
 
 # search(books)
-# # delete(books)
+# delete(books)
 # update_price(books)
 # update_availabilty(books)
 # update_title(books)
@@ -125,11 +135,11 @@ class Bookscrap:
 # save(books)
 
 
-d1 = Bookscrap()
-d1.scrap_books()
+# d1 = Bookscrap()
+# d1.scrap_books()
 # d1.search()
 # d1.update_title()
 # d1.update_availabilty()
 # d1.update_price()
-d1.delete()
-d1.save()
+# d1.delete()
+# d1.save()
