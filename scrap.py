@@ -1,17 +1,18 @@
 import requests
 from bs4 import BeautifulSoup
 from time import sleep
+import sys
 import boto3
 import json
 
 
 
-class Bookscrap:
+class Bookscrape:
     def __init__(self):
         self.base_url = "http://books.toscrape.com/catalogue/page-{}.html"
         self.all_books = []
 
-    def scrap_books(self):
+    def scrape_books(self):
 
         for n in range(1,51):
             self.scrap_url = self.base_url.format(n)
@@ -51,7 +52,8 @@ class Bookscrap:
                 print(self.book['title'])
                 print(f"the price of the book if {self.book['price']}")
                 print(f"the item is currently {self.book['availability']}")
-        
+
+            
 
 
     def delete(self):
@@ -66,6 +68,7 @@ class Bookscrap:
 
 
 
+
     def update_price(self):
         self.counter = 0
         self.search = input("what is the item would you like to update: ").lower() 
@@ -77,6 +80,7 @@ class Bookscrap:
                 print (self.all_books[self.counter])
             else:
                 self.counter += 1
+            
 
     def update_title(self):
         self.counter = 0
@@ -108,7 +112,13 @@ class Bookscrap:
         with open('BookScraper/app.json', "w") as fp:
             json.dump(self.all_books, fp)
 
-
+    def quit(self):
+        choice = input("Would you like to save all changes (y/n): ")
+        if choice == 'y' or choice== 'Y':
+            self.save_json()
+            self.save_s3 = AWSConnect()
+            self.save_s3.save2s3()
+        sys.exit(0)
 
 class AWSConnect:
         def __init__(self):
@@ -116,32 +126,3 @@ class AWSConnect:
         def save2s3(self):
             self.s3.upload_file('BookScraper/app.json', 'lmtd-team-delta','AWSave.json')
            
-        
-# d1 = AWSConnect()
-# d1.save2s3()
-
-# d2 = Bookscrap()
-# d2.scrap_books()
-# d2.save_json()            
-
-# books = scrap_books()
-# print(len(all_books))
-
-
-# search(books)
-# delete(books)
-# update_price(books)
-# update_availabilty(books)
-# update_title(books)
-
-# save(books)
-
-
-# d1 = Bookscrap()
-# d1.scrap_books()
-# d1.search()
-# d1.update_title()
-# d1.update_availabilty()
-# d1.update_price()
-# d1.delete()
-# d1.save()

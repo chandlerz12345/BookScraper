@@ -1,99 +1,72 @@
-import sys 
-import scrap
+from scrap import Bookscrape
+from scrap import AWSConnect
+import sys
+import json
 
 class Menu:
- 
- ''' Displays a list of choices on the terminal for  the user to run '''
- 
- 
- 
+
  def __init__(self):
- 
- 
-      
-      self.scraping = Bookscrap()
-      self.saving = AWSConnect()
- 
 
-      self.choices = {
- 
-           "1" : self.scraping.scrap_books,
- 
-           "2" : self.scraping.update_title,
- 
-           "3" : self.scraping.update_availabilty,
+    self.app = Bookscrape()
+    
+    self.options = {
 
-           "4" : self.scraping.update_price,
+      "1": self.app.scrape_books,
 
-           "5" : self.scraping.delete,
-           
-           "6" : self.scraping.save_json,
-           
-           "7" : self.saving.save2s3,
- 
-           "Q" : self.quit
- 
- 
- 
-        }
- 
- 
- 
- def display_menu(self):
- 
-       print(""" 
-            **************************
-             Welcome to Young Scrapers!
-             How can we help you?  
- 
- 
-             1. Scrape Site
- 
-             2. Update title
-             
-             3. Update availability
- 
-             4. Update price
+      "2": self.app.search,
 
-             5. Delete book
+      "3": self.app.delete,
 
-             6. Save to JSON
-             
-             7. Upload to S3
+      "4": self.app.update_price,
+
+      "5": self.app.update_title,
+
+      "6": self.app.update_availabilty,
+
+      "Q": self.app.quit
+
+    }
+ def display_options(self):
+      print(""" 
+            ************* MAIN MENU *************
+             Welcome to Last Mile Book Store! 
+
+             Please choose one of the options below:
  
-             Q. Quit program
+             1. Deploy Scrape
+ 
+             2. Search For Item
+ 
+             3. Delete An Item
+
+             4. Update Item Price
+
+             5. Update Item Title 
+
+             6. Upadte Item Availability
+
+             Q. Quit
+
+             *************************************
+
+
+             *************************************
+
  
              """)
- 
- 
  def run(self):
- 
-     ''' Display menu and respond to user choices '''
- 
-     while True:
- 
-           self.display_menu()
- 
-           choice = input("Enter an option: " )
- 
-           action = self.choices.get(choice)
- 
-           if action:
- 
-                action()
- 
-           else:
- 
-              print("{0} is not a valid choice".format(choice))
+    while True:
+      self.display_options()
+      option = input("Enter an option: ")
+      action = self.options.get(option)
 
- def quit(self):
+      if action:
+        action()
+      else:
+        print("{0} is not a valid option, Please try again".format(option))
 
-      choice = input("Do you want to save your session? y/n \n\n")
-      if("y" in choice.lower()):
-        self.task_manager.save() 
- 
-      ''' quit or terminate the program '''
- 
-      print("Thank you for visiting the warehouse today! \n")
- 
-      sys.exit(0)
+
+
+if __name__ == "__main__":
+  Menu().run()
+
