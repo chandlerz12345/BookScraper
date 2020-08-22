@@ -1,4 +1,5 @@
-import sys # importing the sys library from Python to quit menu 
+import sys 
+import scrap
 
 class Menu:
  
@@ -9,22 +10,26 @@ class Menu:
  def __init__(self):
  
  
-      #instantiate a new task manager object
-      self.task_manager = TaskManager() 
+      
+      self.scraping = Bookscrap()
+      self.saving = AWSConnect()
  
-      #defines the actions the user can perform
-      #notice how for choices 1-5 we call the functions we defined in our TaskManager class
+
       self.choices = {
  
-           "1" : self.task_manager.show_tasks,
+           "1" : self.scraping.scrap_books,
  
-           "2" : self.task_manager.create_task,
+           "2" : self.scraping.update_title,
  
-           "3" : self.task_manager.search_task,
+           "3" : self.scraping.update_availabilty,
 
-           "4" : self.task_manager.update_task,
+           "4" : self.scraping.update_price,
 
-           "5" : self.task_manager.delete_task,
+           "5" : self.scraping.delete,
+           
+           "6" : self.scraping.save_json,
+           
+           "7" : self.saving.save2s3,
  
            "Q" : self.quit
  
@@ -38,19 +43,23 @@ class Menu:
  
        print(""" 
             **************************
-             Welcome to Task Manager!
+             Welcome to Young Scrapers!
              How can we help you?  
  
  
-             1. Show tasks
+             1. Scrape Site
  
-             2. Create task
+             2. Update title
+             
+             3. Update availability
  
-             3. Search tasks
+             4. Update price
 
-             4. Update tasks
+             5. Delete book
 
-             5. Delete task
+             6. Save to JSON
+             
+             7. Upload to S3
  
              Q. Quit program
  
@@ -81,10 +90,10 @@ class Menu:
 
       choice = input("Do you want to save your session? y/n \n\n")
       if("y" in choice.lower()):
-        self.task_manager.save() # saving our session to a file 
+        self.task_manager.save() 
  
       ''' quit or terminate the program '''
  
       print("Thank you for visiting the warehouse today! \n")
  
-      sys.exit(0) # we use the sys library to call exit and stop app
+      sys.exit(0)

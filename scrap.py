@@ -104,23 +104,25 @@ class Bookscrap:
                 self.counter += 1
 
 
-    def save(self):
-        with open('app.json', "w") as fp:
+    def save_json(self):
+        with open('BookScraper/app.json', "w") as fp:
             json.dump(self.all_books, fp)
 
 
 
 class AWSConnect:
         def __init__(self):
-            self.app = Bookscrap()
-            self.app.scrap_books()
-            self.app.save
             self.s3 = boto3.client('s3')
         def save2s3(self):
-            self.s3.upload_file('app.json', 'lmtd-team-delta','AWSave.json')
+            self.s3.upload_file('BookScraper/app.json', 'lmtd-team-delta','AWSave.json')
+           
         
-d1 = AWSConnect()
-d1.save2s3()            
+# d1 = AWSConnect()
+# d1.save2s3()
+
+# d2 = Bookscrap()
+# d2.scrap_books()
+# d2.save_json()            
 
 # books = scrap_books()
 # print(len(all_books))
