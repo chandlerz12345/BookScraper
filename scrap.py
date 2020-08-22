@@ -9,6 +9,7 @@ import json
 
 class Bookscrape:
     def __init__(self):
+        self.save_s3 = AWSConnect()
         self.base_url = "http://books.toscrape.com/catalogue/page-{}.html"
         self.all_books = []
 
@@ -40,10 +41,7 @@ class Bookscrape:
             # sleep(1)
         return self.all_books
 
-    
 
-
-    # print(soup.body)
 
     def search(self):
         self.to_search = input("what is the title of the item you would like to search: ").lower()
@@ -52,7 +50,7 @@ class Bookscrape:
                 print(self.book['title'])
                 print(f"the price of the book if {self.book['price']}")
                 print(f"the item is currently {self.book['availability']}")
-
+            
             
 
 
@@ -116,7 +114,6 @@ class Bookscrape:
         choice = input("Would you like to save all changes (y/n): ")
         if choice == 'y' or choice== 'Y':
             self.save_json()
-            self.save_s3 = AWSConnect()
             self.save_s3.save2s3()
         sys.exit(0)
 
